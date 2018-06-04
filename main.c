@@ -44,7 +44,7 @@ int main()
     do
     {
         limpiarPantalla();
-        opcion = pedirOpcion(menuPrincipal);
+        opcion = pedirOpcion(&menuPrincipal);
         switch(opcion)
         {
             case 1:

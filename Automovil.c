@@ -274,7 +274,7 @@ int eAutomovil_pedirMarca()
                             /*titulo del menu*/{AUTOMOVIL_MENU_MARCA_TITULO}};
     int retorno;
 
-	retorno = pedirOpcion(menuMarca);
+	retorno = pedirOpcion(&menuMarca);
 
 	return retorno;
 }
