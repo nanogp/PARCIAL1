@@ -1,8 +1,8 @@
 #include "General.h"
 #include "Automovil.h"
-#include "Menu.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 void eAutomovil_initHardcode(eAutomovil listadoAutomoviles[])
 {
@@ -24,7 +24,7 @@ void eAutomovil_init(eAutomovil listadoAutomoviles[], int limiteAutomoviles)
 	int i;
 	for(i=0 ; i<limiteAutomoviles ; i++)
 	{
-		listadoAutomoviles[i].estado= LIBRE;
+		listadoAutomoviles[i].estado= VACIO;
 		listadoAutomoviles[i].idAutomovil= 0;
 	}
 }
@@ -36,7 +36,7 @@ int eAutomovil_buscarLugarLibre(eAutomovil listadoAutomoviles[], int limiteAutom
 
 	for(i=0 ; i<limiteAutomoviles ; i++)
 	{
-		if(listadoAutomoviles[i].estado == LIBRE)
+		if(listadoAutomoviles[i].estado == VACIO)
 		{
 			retorno = i;
 			break;
@@ -268,10 +268,10 @@ void eAutomovil_ordenar(eAutomovil listado[], int limiteAutomoviles, char orden[
 
 int eAutomovil_pedirMarca()
 {
-    eMenu menuMarca = {/*cantidad de opciones*/AUTOMOVIL_MENU_MARCA_CANT,
-                            /*codigos*/{ALPHA_ROMEO, FERRARI, AUDI, OTROS},
-                            /*descripciones*/{MSJ_MENU_ALPHA_ROMEO, MSJ_MENU_FERRARI, MSJ_MENU_AUDI, MSJ_MENU_OTROS},
-                            /*titulo del menu*/{AUTOMOVIL_MENU_MARCA_TITULO}};
+    eMenu menuMarca = {/*titulo del menu*/{AUTOMOVIL_MENU_MARCA_TITULO},
+                       /*cantidad de opciones*/AUTOMOVIL_MENU_MARCA_CANT,
+                       /*codigos*/{ALPHA_ROMEO, FERRARI, AUDI, OTROS},
+                       /*descripciones*/{MSJ_MENU_ALPHA_ROMEO, MSJ_MENU_FERRARI, MSJ_MENU_AUDI, MSJ_MENU_OTROS}};
     int retorno;
 
 	retorno = pedirOpcion(&menuMarca);
@@ -336,8 +336,7 @@ void eAutomovil_alta(eAutomovil listadoAutomoviles[], int limiteAutomoviles, ePr
 	char confirmacion;
 	int posicion;
 
-    limpiarPantalla();
-    imprimirTitulo(AUTOMOVIL_ALTA_TITULO);
+    limpiarPantallaYMostrarTitulo(AUTOMOVIL_ALTA_TITULO);
 
 	posicion = eAutomovil_buscarLugarLibre(listadoAutomoviles, limiteAutomoviles);
 	if(posicion < 0)
@@ -374,8 +373,7 @@ void eAutomovil_baja(eAutomovil listadoAutomoviles[], int limiteAutomoviles, ePr
 	int posicionPropietario;
 	ePropietario propietario;
 
-	ejecutarEnConsola(LIMPIAR_PANTALLA);
-	imprimirTitulo(AUTOMOVIL_BAJA_TITULO);
+	limpiarPantallaYMostrarTitulo(AUTOMOVIL_BAJA_TITULO);
 
 	if(eAutomovil_estaVacio(listadoAutomoviles, limiteAutomoviles) == 1)
 	{
@@ -383,8 +381,7 @@ void eAutomovil_baja(eAutomovil listadoAutomoviles[], int limiteAutomoviles, ePr
 	}
 	else
 	{
-		ejecutarEnConsola(LIMPIAR_PANTALLA);
-		imprimirTitulo(AUTOMOVIL_BAJA_TITULO);
+		limpiarPantallaYMostrarTitulo(AUTOMOVIL_BAJA_TITULO);
 
 		posicionAutomovil = eAutomovil_pedirIdYBuscar(listadoAutomoviles, limiteAutomoviles);
 
@@ -398,7 +395,47 @@ void eAutomovil_baja(eAutomovil listadoAutomoviles[], int limiteAutomoviles, ePr
 		    posicionPropietario = ePropietario_buscarPorId(listadoPropietarios, limitePropietarios, listadoAutomoviles[posicionAutomovil].idPropietario);
             propietario = listadoPropietarios[posicionPropietario];
 			emitirTicket(listadoAutomoviles[posicionAutomovil], propietario);
-			listadoAutomoviles[posicionAutomovil].estado = LIBRE;
+			listadoAutomoviles[posicionAutomovil].estado = VACIO;
+		}
+		else
+		{
+			imprimirEnPantalla(MSJ_CANCELO_GESTION);
+		}
+	}
+
+	pausa();
+}
+
+void eAutomovil_bajaPropietario(eAutomovil listadoAutomoviles[], int limiteAutomoviles, ePropietario listadoPropietarios[], int limitePropietarios)
+{
+	char confirmacion;
+	int posicionAutomovil;
+	int posicionPropietario;
+	ePropietario propietario;
+
+	limpiarPantallaYMostrarTitulo(AUTOMOVIL_BAJA_TITULO);
+
+	if(eAutomovil_estaVacio(listadoAutomoviles, limiteAutomoviles) == 1)
+	{
+		imprimirEnPantalla(AUTOMOVIL_MSJ_LISTA_VACIA);
+	}
+	else
+	{
+		limpiarPantallaYMostrarTitulo(AUTOMOVIL_BAJA_TITULO);
+
+		posicionAutomovil = eAutomovil_pedirIdYBuscar(listadoAutomoviles, limiteAutomoviles);
+
+		imprimirEnPantalla(AUTOMOVIL_MOSTRAR_UNO_CABECERA);
+		eAutomovil_mostrarUno(listadoAutomoviles[posicionAutomovil]);
+
+		confirmacion = pedirConfirmacion(AUTOMOVIL_MSJ_CONFIRMAR_BAJA);
+
+		if(confirmacion == 'S')
+		{
+		    posicionPropietario = ePropietario_buscarPorId(listadoPropietarios, limitePropietarios, listadoAutomoviles[posicionAutomovil].idPropietario);
+            propietario = listadoPropietarios[posicionPropietario];
+			emitirTicket(listadoAutomoviles[posicionAutomovil], propietario);
+			listadoAutomoviles[posicionAutomovil].estado = VACIO;
 		}
 		else
 		{
@@ -455,8 +492,7 @@ void emitirTicket(eAutomovil automovil, ePropietario propietario)
     valorEstadia = calcularValorEstadia(automovil, devolverHorasEstadia());
     eAutomovil_convertirCodMarcaEnTexto(automovil.marca, textoMarca);
 
-    limpiarPantalla();
-    imprimirTitulo(AUTOMOVIL_BAJA_TITULO);
+    limpiarPantallaYMostrarTitulo(AUTOMOVIL_BAJA_TITULO);
 
     imprimirEnPantalla("\nPROPIETARIO - PATENTE - MARCA - VALOR ESTADIA ($)");
     printf("\n%-5s - %-5s - %-5s - $%-4d", propietario.nombre, automovil.patente, textoMarca, valorEstadia);

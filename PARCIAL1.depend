@@ -42,3 +42,42 @@
 	"General.h"
 	"Propietario.h"
 
+1528478892 source:d:\github\parcial1\automovil.c
+	"General.h"
+	"Automovil.h"
+	<stdio.h>
+	<string.h>
+	<stdlib.h>
+
+1528325189 d:\github\parcial1\general.h
+
+1528480254 d:\github\parcial1\automovil.h
+	"General.h"
+	"Propietario.h"
+	"Menu.h"
+
+1528391780 d:\github\parcial1\propietario.h
+	"General.h"
+	"Menu.h"
+
+1528478416 d:\github\parcial1\menu.h
+
+1528325451 source:d:\github\parcial1\general.c
+	"General.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1528391839 source:d:\github\parcial1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"General.h"
+	"Menu.h"
+	"Propietario.h"
+	"Automovil.h"
+
+1528478944 source:d:\github\parcial1\propietario.c
+	"Propietario.h"
+	<stdio.h>
+	<string.h>
+

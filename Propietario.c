@@ -16,7 +16,7 @@ void ePropietario_init(ePropietario listadoPropietarios[], int limitePropietario
 	int i;
 	for(i=0 ; i<limitePropietarios ; i++)
 	{
-		listadoPropietarios[i].estado= LIBRE;
+		listadoPropietarios[i].estado= VACIO;
 		listadoPropietarios[i].idPropietario= 0;
 	}
 }
@@ -28,7 +28,7 @@ int ePropietario_buscarLugarLibre(ePropietario listadoPropietarios[], int limite
 
 	for(i=0 ; i<limitePropietarios ; i++)
 	{
-		if(listadoPropietarios[i].estado == LIBRE)
+		if(listadoPropietarios[i].estado == VACIO)
 		{
 			retorno = i;
 			break;
@@ -163,8 +163,7 @@ void ePropietario_alta(ePropietario listadoPropietarios[], int limitePropietario
 	char confirmacion;
 	int posicion;
 
-    limpiarPantalla();
-    imprimirTitulo(PROPIETARIO_ALTA_TITULO);
+    limpiarPantallaYMostrarTitulo(PROPIETARIO_ALTA_TITULO);
 
 	posicion = ePropietario_buscarLugarLibre(listadoPropietarios, limitePropietarios);
 	if(posicion < 0)
@@ -264,21 +263,20 @@ void ePropietario_ordenar(ePropietario listado[], int limitePropietarios, char o
 
 int ePropietario_modificarUno(ePropietario registro[])
 {
-	 eMenu menuModificar = {/*cantidad de opciones*/PROPIETARIO_MENU_MODIFICAR_UNO_CANT,
-							/*codigos*/{1,0},
-							/*descripciones*/{PROPIETARIO_MENU_MODIFICAR_UNO_DETALLE1,PROPIETARIO_MENU_MODIFICAR_UNO_DETALLE0},
-							/*titulo del menu*/{PROPIETARIO_MENU_MODIFICAR_UNO_TITULO}};
+	 eMenu menuModificar = {/*titulo del menu*/{PROPIETARIO_MENU_MODIFICAR_UNO_TITULO},
+                           /*cantidad de opciones*/PROPIETARIO_MENU_MODIFICAR_UNO_CANT,
+                           /*codigos*/{1,0},
+                           /*descripciones*/{PROPIETARIO_MENU_MODIFICAR_UNO_DETALLE1,PROPIETARIO_MENU_MODIFICAR_UNO_DETALLE0}};
 	int opcion;
 	int huboCambios = 1;
 
-	ejecutarEnConsola(LIMPIAR_PANTALLA);
-	imprimirTitulo(MSJ_MODIFICANDO_REGISTRO);
+	limpiarPantallaYMostrarTitulo(MSJ_MODIFICANDO_REGISTRO);
 	imprimirEnPantalla(MSJ_DATOS_A_MODIFICAR);
-    imprimirEnPantalla(PROPIETARIO_MOSTRAR_UNO_CABECERA);
+   imprimirEnPantalla(PROPIETARIO_MOSTRAR_UNO_CABECERA);
 
 	ePropietario_mostrarUno(*registro);
 
-	opcion = pedirOpcion(menuModificar);
+	opcion = pedirOpcion(&menuModificar);
 	switch(opcion)
 	{
 		case 1:
@@ -319,8 +317,7 @@ void ePropietario_modificacion(ePropietario listadoPropietarios[], int limitePro
 	int posicion;
 	int huboCambios;
 
-	ejecutarEnConsola(LIMPIAR_PANTALLA);
-	imprimirTitulo(PROPIETARIO_MODIFICACION_TITULO);
+	limpiarPantallaYMostrarTitulo(PROPIETARIO_MODIFICACION_TITULO);
 
 	if(ePropietario_estaVacio(listadoPropietarios, limitePropietarios) == 1)
 	{
@@ -340,8 +337,7 @@ void ePropietario_modificacion(ePropietario listadoPropietarios[], int limitePro
                 se recalcularian promedios por ej.
             }*/
 
-            ejecutarEnConsola(LIMPIAR_PANTALLA);
-            imprimirTitulo(PROPIETARIO_MODIFICACION_TITULO);
+            limpiarPantallaYMostrarTitulo(PROPIETARIO_MODIFICACION_TITULO);
 
             imprimirEnPantalla(PROPIETARIO_MSJ_REGISTRO_ACTUAL);
             ePropietario_mostrarUno(listadoPropietarios[posicion]);
@@ -370,17 +366,15 @@ void ePropietario_modificacion(ePropietario listadoPropietarios[], int limitePro
 		}
 	}
 
-	ejecutarEnConsola(HACER_PAUSA);
+	pausa();;
 }
 
-int ePropietario_baja(ePropietario listadoPropietarios[], int limitePropietarios)
+void ePropietario_baja(ePropietario listadoPropietarios[], int limitePropietarios)
 {
 	char confirmacion;
 	int posicion;
-	int idPropietario;
 
-	ejecutarEnConsola(LIMPIAR_PANTALLA);
-	imprimirTitulo(PROPIETARIO_BAJA_TITULO);
+	limpiarPantallaYMostrarTitulo(PROPIETARIO_BAJA_TITULO);
 
 	if(ePropietario_estaVacio(listadoPropietarios, limitePropietarios) == 1)
 	{
@@ -388,8 +382,7 @@ int ePropietario_baja(ePropietario listadoPropietarios[], int limitePropietarios
 	}
 	else
 	{
-		ejecutarEnConsola(LIMPIAR_PANTALLA);
-		imprimirTitulo(PROPIETARIO_BAJA_TITULO);
+		limpiarPantallaYMostrarTitulo(PROPIETARIO_BAJA_TITULO);
 
 		posicion = ePropietario_pedirIdYBuscar(listadoPropietarios, limitePropietarios);
 
@@ -400,8 +393,7 @@ int ePropietario_baja(ePropietario listadoPropietarios[], int limitePropietarios
 
 		if(confirmacion == 'S')
 		{
-			idPropietario = listadoPropietarios[posicion].idPropietario;
-			listadoPropietarios[posicion].estado = LIBRE;
+			listadoPropietarios[posicion].estado = VACIO;
 			imprimirEnPantalla(PROPIETARIO_MSJ_BAJA_OK);
 		}
 		else
@@ -410,6 +402,5 @@ int ePropietario_baja(ePropietario listadoPropietarios[], int limitePropietarios
 		}
 	}
 
-	ejecutarEnConsola(HACER_PAUSA);
-	return idPropietario;
+	pausa();;
 }

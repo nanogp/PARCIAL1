@@ -5,28 +5,34 @@
 #include "Propietario.h"
 #include "Automovil.h"
 
-#define MAIN_MENU_GESTION_TITULO DEFINIR_MACRO_STRING(MENU ESTACIONAMIENTO)
+#define MAIN_MENU_GESTION_TITULO "MENU ESTACIONAMIENTO"
 #define MAIN_MENU_GESTION_CANT 8
-#define MAIN_MENU_GESTION_DETALLE1 DEFINIR_MACRO_STRING(1. Alta Propietario)
-#define MAIN_MENU_GESTION_DETALLE2 DEFINIR_MACRO_STRING(2. Modificacion Propietario)
-#define MAIN_MENU_GESTION_DETALLE3 DEFINIR_MACRO_STRING(3. Baja Propietario)
-#define MAIN_MENU_GESTION_DETALLE4 DEFINIR_MACRO_STRING(4. Ingreso del Automovil)
-#define MAIN_MENU_GESTION_DETALLE5 DEFINIR_MACRO_STRING(5. Egreso del Automovil)
-#define MAIN_MENU_GESTION_DETALLE6 DEFINIR_MACRO_STRING(6. )
-#define MAIN_MENU_GESTION_DETALLE7 DEFINIR_MACRO_STRING(7. )
-#define MAIN_MENU_GESTION_DETALLE8 DEFINIR_MACRO_STRING(8. Listar Automoviles)
-#define MAIN_MENU_GESTION_DETALLE9 DEFINIR_MACRO_STRING(9. Listar Propietarios)
-#define MAIN_MENU_GESTION_DETALLE0 DEFINIR_MACRO_STRING(0. Salir del programa)
+#define MAIN_MENU_GESTION_DETALLE1 "1. Alta Propietario"
+#define MAIN_MENU_GESTION_DETALLE2 "2. Modificacion Propietario"
+#define MAIN_MENU_GESTION_DETALLE3 "3. Baja Propietario"
+#define MAIN_MENU_GESTION_DETALLE4 "4. Ingreso del Automovil"
+#define MAIN_MENU_GESTION_DETALLE5 "5. Egreso del Automovil"
+#define MAIN_MENU_GESTION_DETALLE6 "6. "
+#define MAIN_MENU_GESTION_DETALLE7 "7. "
+#define MAIN_MENU_GESTION_DETALLE8 "8. Listar Automoviles"
+#define MAIN_MENU_GESTION_DETALLE9 "9. Listar Propietarios"
+#define MAIN_MENU_GESTION_DETALLE0 "0. Salir del programa"
 
 int main()
 {
-    eMenu menuPrincipal = {/*cantidad de opciones*/MAIN_MENU_GESTION_CANT,
-                            /*codigos*/{1,2,3,4,5,8,9,0},
-                            /*descripciones*/{MAIN_MENU_GESTION_DETALLE1,MAIN_MENU_GESTION_DETALLE2,MAIN_MENU_GESTION_DETALLE3,MAIN_MENU_GESTION_DETALLE4,MAIN_MENU_GESTION_DETALLE5,MAIN_MENU_GESTION_DETALLE8,MAIN_MENU_GESTION_DETALLE9,MAIN_MENU_GESTION_DETALLE0},
-                            /*titulo del menu*/{MAIN_MENU_GESTION_TITULO}};
+    eMenu menuPrincipal = {/*titulo del menu*/{MAIN_MENU_GESTION_TITULO},
+                           /*cantidad de opciones*/MAIN_MENU_GESTION_CANT,
+                           /*codigos*/{1,2,3,4,5,8,9,0},
+                           /*descripciones*/{MAIN_MENU_GESTION_DETALLE1,
+                                             MAIN_MENU_GESTION_DETALLE2,
+                                             MAIN_MENU_GESTION_DETALLE3,
+                                             MAIN_MENU_GESTION_DETALLE4,
+                                             MAIN_MENU_GESTION_DETALLE5,
+                                             MAIN_MENU_GESTION_DETALLE8,
+                                             MAIN_MENU_GESTION_DETALLE9,
+                                             MAIN_MENU_GESTION_DETALLE0}};
     int opcion;
     char salirDelPrograma = 'N';
-    int idPropietario;
 
     //ARRAYS DE ESTRUCTURAS
     ePropietario listadoPropietarios[PROPIETARIO_CANT_MAX] = {};
@@ -54,7 +60,7 @@ int main()
                 ePropietario_modificacion(listadoPropietarios, PROPIETARIO_CANT_MAX);
                 break;
             case 3:
-                idPropietario = ePropietario_baja(listadoPropietarios, PROPIETARIO_CANT_MAX);
+                ePropietario_baja(listadoPropietarios, PROPIETARIO_CANT_MAX);
                 break;
             case 4:
                 eAutomovil_alta(listadoAutomoviles, AUTOMOVIL_CANT_MAX, listadoPropietarios, PROPIETARIO_CANT_MAX);
